@@ -66,193 +66,53 @@ const LABELS: { [key: string]: string } = {
   brightness: "Brightness", hue: "Hue", active_d_lighting: "Active D-Lighting",
 };
 
-const s = {
-  // Layout
-  page: { minHeight: "100vh", background: "#F5F0E8" } as React.CSSProperties,
-  header: {
-    padding: "24px 48px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottom: "1px solid #E0D8CC",
-  } as React.CSSProperties,
-  logo: {
-    fontSize: "13px",
-    letterSpacing: "0.3em",
-    textTransform: "uppercase" as const,
-    color: "#1a1a1a",
-    fontFamily: "monospace",
-  },
-  logoSub: {
-    fontSize: "9px",
-    letterSpacing: "0.2em",
-    color: "#B5AA9A",
-    fontFamily: "monospace",
-    textTransform: "uppercase" as const,
-    marginTop: "2px",
-  },
-  main: { maxWidth: "860px", margin: "0 auto", padding: "64px 24px" } as React.CSSProperties,
-
-  // Hero
-  hero: { textAlign: "center" as const, marginBottom: "56px" },
-  heroEyebrow: {
-    fontSize: "10px",
-    letterSpacing: "0.3em",
-    textTransform: "uppercase" as const,
-    color: "#B5AA9A",
-    fontFamily: "monospace",
-    marginBottom: "20px",
-  },
-  heroTitle: {
-    fontSize: "clamp(36px, 5vw, 58px)",
-    fontWeight: "normal",
-    lineHeight: "1.1",
-    color: "#1a1a1a",
-    marginBottom: "16px",
-    letterSpacing: "-0.02em",
-  },
-  heroAccent: { color: "#C8A96E", fontStyle: "italic" },
-  heroSub: { fontSize: "14px", color: "#8A8070", lineHeight: "1.7", maxWidth: "400px", margin: "0 auto" },
-
-  // Upload
-  uploadZone: (isDragging: boolean, hasImage: boolean): React.CSSProperties => ({
-    border: `1px solid ${isDragging ? "#C8A96E" : hasImage ? "#3a3530" : "#3a3530"}`,
-    borderRadius: "2px",
-    padding: hasImage ? "0" : "80px 24px",
-    cursor: "pointer",
-    background: isDragging ? "#2a2520" : hasImage ? "#1a1814" : "#1a1814",
-    marginBottom: "48px",
-    overflow: "hidden",
-    position: "relative",
-    textAlign: "center",
-    transition: "all 0.2s",
-  }),
-
-  uploadText: { fontSize: "13px", color: "#8A8070", marginBottom: "6px" },
-uploadHint: { fontSize: "10px", color: "#5A5048", fontFamily: "monospace", letterSpacing: "0.15em" },
-
-  // Loading overlay
-  overlay: {
-    position: "absolute" as const,
-    inset: 0,
-    background: "rgba(245,240,232,0.92)",
-    display: "flex",
-    flexDirection: "column" as const,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "12px",
-  },
-  overlayText: { fontSize: "10px", fontFamily: "monospace", color: "#C8A96E", letterSpacing: "0.25em" },
-  overlaySpinner: { fontSize: "24px", animation: "spin 3s linear infinite", color: "#C8A96E" },
-
-  // Recipe title block
-  recipeHeader: {
-    marginBottom: "48px",
-    paddingBottom: "32px",
-    borderBottom: "1px solid #E0D8CC",
-  } as React.CSSProperties,
-  recipeEyebrow: {
-    fontSize: "9px",
-    letterSpacing: "0.3em",
-    textTransform: "uppercase" as const,
-    color: "#B5AA9A",
-    fontFamily: "monospace",
-    marginBottom: "12px",
-  },
-  recipeTitle: { fontSize: "36px", fontWeight: "normal", color: "#1a1a1a", marginBottom: "8px", letterSpacing: "-0.02em" },
-  recipeMood: { fontSize: "14px", color: "#8A8070", lineHeight: "1.6", marginBottom: "16px" },
-  recipeTags: { display: "flex", gap: "8px", flexWrap: "wrap" as const },
-  tag: {
-    fontSize: "9px",
-    fontFamily: "monospace",
-    letterSpacing: "0.15em",
-    textTransform: "uppercase" as const,
-    color: "#B5AA9A",
-    border: "1px solid #E0D8CC",
-    padding: "4px 10px",
-    borderRadius: "1px",
-  },
-
-  // Grid
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1px", background: "#E0D8CC", marginBottom: "1px" } as React.CSSProperties,
-  gridCell: { background: "#F5F0E8", padding: "28px" } as React.CSSProperties,
-  cellLabel: {
-    fontSize: "9px",
-    letterSpacing: "0.2em",
-    textTransform: "uppercase" as const,
-    color: "#B5AA9A",
-    fontFamily: "monospace",
-    marginBottom: "20px",
-  },
-
-  // Rows
-  row: { display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "8px 0", borderBottom: "1px solid #D4C8B4" } as React.CSSProperties,
-  rowLabel: { fontSize: "11px", color: "#A09585", fontFamily: "monospace", textTransform: "uppercase" as const, letterSpacing: "0.06em", flexShrink: 0, marginRight: "16px" },
-  rowValue: { fontSize: "12px", color: "#3a3530", textAlign: "right" as const, lineHeight: "1.4" },
-
-  // Color swatches
-  swatchRow: { display: "flex", gap: "8px", marginBottom: "16px" } as React.CSSProperties,
-  swatch: (color: string): React.CSSProperties => ({ width: "32px", height: "32px", background: color, borderRadius: "1px" }),
-
-  // Film simulation
-  filmBlock: { background: "#FAF7F2", border: "1px solid #E0D8CC", padding: "20px", marginBottom: "1px" } as React.CSSProperties,
-  filmName: { fontSize: "18px", color: "#C8A96E", fontFamily: "monospace", marginBottom: "8px", letterSpacing: "0.05em" },
-  filmReason: { fontSize: "12px", color: "#8A8070", lineHeight: "1.7" },
-
-  // Tabs
-  tabBar: { display: "flex", gap: "0", marginBottom: "0", borderBottom: "1px solid #E0D8CC" } as React.CSSProperties,
-  tab: (active: boolean): React.CSSProperties => ({
-    padding: "12px 20px",
-    fontSize: "10px",
-    fontFamily: "monospace",
-    letterSpacing: "0.15em",
-    textTransform: "uppercase",
-    cursor: "pointer",
-    border: "none",
-    borderBottom: active ? "2px solid #C8A96E" : "2px solid transparent",
-    background: "transparent",
-    color: active ? "#C8A96E" : "#B5AA9A",
-    transition: "all 0.15s",
-    marginBottom: "-1px",
-  }),
-  tabContent: { background: "#EDE5D8", padding: "24px", border: "1px solid #D4C8B4", borderTop: "none" } as React.CSSProperties,
-  tabHint: { fontSize: "10px", color: "#C8BFB0", fontFamily: "monospace", letterSpacing: "0.1em", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #EDE8E0" },
-
-  // Tips
-  tipsGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1px", background: "#E0D8CC" } as React.CSSProperties,
-  tipCell: { background: "#F5F0E8", padding: "20px", display: "flex", gap: "12px" } as React.CSSProperties,
-  tipNum: { fontSize: "10px", fontFamily: "monospace", color: "#C8A96E", flexShrink: 0, marginTop: "2px" },
-  tipText: { fontSize: "12px", color: "#6A6058", lineHeight: "1.7" },
-
-  // Summary
-  summary: { padding: "32px 0", borderTop: "1px solid #E0D8CC", marginTop: "1px" } as React.CSSProperties,
-  summaryLabel: { fontSize: "9px", letterSpacing: "0.25em", textTransform: "uppercase" as const, color: "#B5AA9A", fontFamily: "monospace", marginBottom: "12px" },
-  summaryText: { fontSize: "13px", color: "#6A6058", lineHeight: "1.9" },
-
-  // CTA
-  cta: { textAlign: "center" as const, paddingBottom: "80px", paddingTop: "40px" },
-  ctaBtn: {
-    background: "transparent",
-    border: "1px solid #C8A96E",
-    color: "#C8A96E",
-    padding: "12px 32px",
-    fontSize: "9px",
-    fontFamily: "monospace",
-    letterSpacing: "0.25em",
-    textTransform: "uppercase" as const,
-    cursor: "pointer",
-    transition: "all 0.2s",
-  },
-
-  // Error
-  error: { border: "1px solid #E8C4B4", background: "#FDF5F0", padding: "14px", marginBottom: "24px", fontSize: "12px", color: "#A06050", fontFamily: "monospace" } as React.CSSProperties,
-};
+function NeonStrip({ position }: { position: "top" | "bottom" }) {
+  const text = "✦ PHOTORECIPE ✦ FILM ANALYSIS ✦ AI POWERED ✦ REVERSE ENGINEER ✦ ";
+  const repeated = text.repeat(6);
+  return (
+    <div style={{
+      position: "fixed" as const,
+      [position]: 0,
+      left: 0,
+      right: 0,
+      height: "36px",
+      background: "#0a0a1a",
+      borderTop: position === "bottom" ? "1px solid #1a2a4a" : "none",
+      borderBottom: position === "top" ? "1px solid #1a2a4a" : "none",
+      display: "flex",
+      alignItems: "center",
+      overflow: "hidden",
+      zIndex: 100,
+    }}>
+      {/* Neon glow efekti için arka ışık */}
+      <div style={{
+        position: "absolute" as const,
+        inset: 0,
+        background: "linear-gradient(90deg, transparent, rgba(0,120,255,0.06), transparent)",
+        pointerEvents: "none",
+      }} />
+      <div style={{
+        whiteSpace: "nowrap" as const,
+        animation: position === "top" ? "marqueeLeft 25s linear infinite" : "marqueeRight 25s linear infinite",
+        fontSize: "11px",
+        fontFamily: "monospace",
+        letterSpacing: "0.2em",
+        color: "#4499FF",
+        textShadow: "0 0 8px #4499FF, 0 0 20px #2266CC, 0 0 40px #0044AA",
+        paddingLeft: "100%",
+        display: "inline-block",
+      }}>
+        {repeated}
+      </div>
+    </div>
+  );
+}
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div style={s.row}>
-      <span style={s.rowLabel}>{label}</span>
-      <span style={s.rowValue}>{value}</span>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "10px 0", borderBottom: "1px solid #F0F0F0" }}>
+      <span style={{ fontSize: "10px", color: "#999", fontFamily: "monospace", textTransform: "uppercase" as const, letterSpacing: "0.1em", flexShrink: 0, marginRight: "16px" }}>{label}</span>
+      <span style={{ fontSize: "13px", color: "#1a1a1a", textAlign: "right" as const }}>{value}</span>
     </div>
   );
 }
@@ -277,16 +137,36 @@ function RecipeTabs({ recipe }: { recipe: Recipe }) {
   };
 
   return (
-    <div style={{ marginBottom: "1px" }}>
-      <div style={s.tabBar}>
+    <div>
+      <div style={{ display: "flex", borderBottom: "2px solid #1a1a1a" }}>
         {TABS.map((tab) => (
-          <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={s.tab(activeTab === tab.key)}>
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            style={{
+              padding: "14px 24px",
+              fontSize: "10px",
+              fontFamily: "monospace",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase" as const,
+              cursor: "pointer",
+              border: "none",
+              borderBottom: activeTab === tab.key ? "2px solid #1a1a1a" : "2px solid transparent",
+              background: "transparent",
+              color: activeTab === tab.key ? "#1a1a1a" : "#BBBBBB",
+              marginBottom: "-2px",
+              transition: "all 0.15s",
+              fontWeight: activeTab === tab.key ? "600" : "400",
+            }}
+          >
             {tab.label}
           </button>
         ))}
       </div>
-      <div style={s.tabContent}>
-        <div style={s.tabHint}>{hints[activeTab]}</div>
+      <div style={{ padding: "24px 0" }}>
+        <div style={{ fontSize: "10px", color: "#BBBBBB", fontFamily: "monospace", letterSpacing: "0.1em", marginBottom: "16px" }}>
+          {hints[activeTab]}
+        </div>
         {Object.entries(tabData[activeTab]).map(([key, value]) => (
           <InfoRow key={key} label={LABELS[key] || key.replace(/_/g, " ")} value={value} />
         ))}
@@ -343,80 +223,116 @@ export default function Home() {
   }, [processFile]);
 
   return (
-    <div style={s.page}>
-      <header style={s.header}>
+    <div style={{ minHeight: "100vh", background: "#FFFFFF", color: "#1a1a1a", paddingTop: "36px", paddingBottom: "36px" }}>
+
+      <NeonStrip position="top" />
+      <NeonStrip position="bottom" />
+
+      {/* Header */}
+      <header style={{ padding: "24px 64px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #E8E8E8" }}>
         <div>
-          <div style={s.logo}>PhotoRecipe</div>
-          <div style={s.logoSub}>Film Analysis System</div>
+          <div style={{ fontSize: "20px", fontWeight: "700", letterSpacing: "-0.02em", fontFamily: "Georgia, serif" }}>PhotoRecipe</div>
+          <div style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#BBBBBB", fontFamily: "monospace", textTransform: "uppercase" as const }}>Film Analysis System</div>
         </div>
-        <div style={{ fontSize: "9px", fontFamily: "monospace", color: "#C8BFB0", letterSpacing: "0.15em" }}>AI POWERED</div>
+        <div style={{ fontSize: "9px", fontFamily: "monospace", color: "#BBBBBB", letterSpacing: "0.15em" }}>AI POWERED</div>
       </header>
 
-      <main style={s.main}>
-        {!image && (
-          <div style={s.hero}>
-            <div style={s.heroEyebrow}>Reverse Engineer Any Photo</div>
-            <h1 style={s.heroTitle}>
-              Fotoğrafı yükle.<br />
-              <span style={s.heroAccent}>Reçeteni al.</span>
-            </h1>
-            <p style={s.heroSub}>Lightroom, Fujifilm, Sony, Canon ve Nikon için özel reçeteler.</p>
-          </div>
-        )}
+      <main style={{ maxWidth: "960px", margin: "0 auto", padding: "0 64px" }}>
 
+        {/* Upload — her zaman üstte */}
         <div
           onClick={() => !loading && fileInputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
-          style={s.uploadZone(isDragging, !!image)}
+          style={{
+            marginTop: "48px",
+            marginBottom: "48px",
+            border: isDragging ? "2px dashed #4499FF" : image ? "1px solid #E8E8E8" : "2px dashed #D0D0D0",
+            borderRadius: "4px",
+            padding: image ? "0" : "72px 40px",
+            cursor: loading ? "wait" : "pointer",
+            background: isDragging ? "rgba(68,153,255,0.04)" : image ? "#fff" : "#FAFAFA",
+            position: "relative" as const,
+            textAlign: "center" as const,
+            transition: "all 0.2s",
+          }}
         >
           <input ref={fileInputRef} type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) processFile(f); }} style={{ display: "none" }} />
 
           {image ? (
-            <div style={{ position: "relative" }}>
-              <img src={image} alt="Uploaded" style={{ width: "100%", maxHeight: "480px", objectFit: "contain", display: "block", background: "#FAF7F2" }} />
+            <div style={{ position: "relative" as const }}>
+              <img src={image} alt="Uploaded" style={{ width: "100%", maxHeight: "520px", objectFit: "contain" as const, display: "block" }} />
               {loading && (
-                <div style={s.overlay}>
-                  <div style={s.overlaySpinner}>◎</div>
-                  <div style={s.overlayText}>Reçete hazırlanıyor</div>
+                <div style={{ position: "absolute" as const, inset: 0, background: "rgba(255,255,255,0.94)", display: "flex", flexDirection: "column" as const, alignItems: "center", justifyContent: "center", gap: "20px" }}>
+                  <div style={{ fontSize: "13px", fontFamily: "monospace", color: "#1a1a1a", letterSpacing: "0.3em" }}>ANALYSING</div>
+                  <div style={{ width: "160px", height: "1px", background: "#E8E8E8", position: "relative" as const, overflow: "hidden" }}>
+                    <div style={{ position: "absolute" as const, left: 0, top: 0, height: "100%", width: "40%", background: "#1a1a1a", animation: "slide 1.2s ease-in-out infinite" }} />
+                  </div>
+                  <div style={{ fontSize: "9px", fontFamily: "monospace", color: "#BBBBBB", letterSpacing: "0.2em" }}>LIGHTROOM · FUJIFILM · SONY · CANON · NIKON</div>
                 </div>
               )}
               {!loading && (
-                <div style={{ position: "absolute", bottom: "16px", right: "16px", background: "rgba(245,240,232,0.9)", padding: "6px 12px", fontSize: "9px", fontFamily: "monospace", color: "#B5AA9A", letterSpacing: "0.15em", border: "1px solid #E0D8CC" }}>
-                  YENİ FOTOĞRAF
+                <div style={{ position: "absolute" as const, bottom: "16px", right: "16px", background: "#1a1a1a", color: "#fff", padding: "8px 16px", fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.15em", cursor: "pointer" }}>
+                  NEW IMAGE
                 </div>
               )}
             </div>
           ) : (
             <>
-              <div style={{ fontSize: "32px", marginBottom: "16px", color: "#4A4038" }}>○</div>
-              <div style={s.uploadText}>Fotoğrafı buraya sürükle veya tıkla</div>
-              <div style={s.uploadHint}>JPG · PNG · WEBP</div>
+              <div style={{ fontSize: "15px", fontFamily: "monospace", letterSpacing: "0.25em", color: "#888", marginBottom: "10px", fontWeight: "600" }}>
+                DROP IMAGE HERE
+              </div>
+              <div style={{ fontSize: "10px", fontFamily: "monospace", color: "#C0C0C0", letterSpacing: "0.2em" }}>
+                veya tıklayarak seç · JPG · PNG · WEBP
+              </div>
             </>
           )}
         </div>
 
-        {error && <div style={s.error}>✕ {error}</div>}
+        {/* Hero — sadece fotoğraf yokken */}
+        {!image && (
+          <div style={{ paddingBottom: "64px", borderBottom: "1px solid #E8E8E8" }}>
+            <div style={{ fontSize: "9px", letterSpacing: "0.3em", color: "#BBBBBB", fontFamily: "monospace", textTransform: "uppercase" as const, marginBottom: "24px" }}>
+              Issue No. 001 · Reverse Engineer Any Photo
+            </div>
+            <h1 style={{ fontSize: "clamp(48px, 7vw, 80px)", fontWeight: "700", lineHeight: "1.0", letterSpacing: "-0.03em", fontFamily: "Georgia, serif", marginBottom: "24px" }}>
+              Upload.<br />
+              <span style={{ color: "#BBBBBB", fontStyle: "italic" }}>Analyse.</span><br />
+              Recreate.
+            </h1>
+            <p style={{ fontSize: "14px", color: "#888", lineHeight: "1.8", maxWidth: "360px" }}>
+              Fotoğrafın sırlarını çöz. Lightroom, Fujifilm, Sony, Canon ve Nikon için tam reçete.
+            </p>
+          </div>
+        )}
 
+        {error && (
+          <div style={{ border: "1px solid #1a1a1a", padding: "14px", marginBottom: "24px", fontSize: "11px", color: "#1a1a1a", fontFamily: "monospace", letterSpacing: "0.1em" }}>
+            ✕ {error}
+          </div>
+        )}
+
+        {/* Recipe */}
         {recipe && !loading && (
           <div>
-            {/* Başlık */}
-            <div style={s.recipeHeader}>
-              <div style={s.recipeEyebrow}>Film Reçetesi</div>
-              <h2 style={s.recipeTitle}>{recipe.title}</h2>
-              <p style={s.recipeMood}>{recipe.mood}</p>
-              <div style={s.recipeTags}>
-                <span style={s.tag}>{recipe.genre}</span>
-                <span style={s.tag}>{recipe.film_simulation.analog_film_equivalent}</span>
-                <span style={s.tag}>{recipe.color_analysis.color_palette_name}</span>
+            <div style={{ paddingBottom: "48px", borderBottom: "1px solid #E8E8E8", marginBottom: "48px" }}>
+              <div style={{ fontSize: "9px", letterSpacing: "0.3em", color: "#BBBBBB", fontFamily: "monospace", textTransform: "uppercase" as const, marginBottom: "16px" }}>
+                Film Recipe · {recipe.genre}
+              </div>
+              <h2 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: "700", letterSpacing: "-0.03em", fontFamily: "Georgia, serif", lineHeight: "1.05", marginBottom: "16px" }}>
+                {recipe.title}
+              </h2>
+              <p style={{ fontSize: "15px", color: "#888", lineHeight: "1.7", maxWidth: "480px", marginBottom: "20px" }}>{recipe.mood}</p>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <span style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.15em", border: "1px solid #E8E8E8", padding: "4px 12px", color: "#888" }}>{recipe.film_simulation.analog_film_equivalent}</span>
+                <span style={{ fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.15em", border: "1px solid #E8E8E8", padding: "4px 12px", color: "#888" }}>{recipe.color_analysis.color_palette_name}</span>
               </div>
             </div>
 
-            {/* Kamera + Renk Grid */}
-            <div style={s.grid}>
-              <div style={s.gridCell}>
-                <div style={s.cellLabel}>Kamera Ayarları</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", marginBottom: "48px", paddingBottom: "48px", borderBottom: "1px solid #E8E8E8" }}>
+              <div>
+                <div style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#BBBBBB", fontFamily: "monospace", textTransform: "uppercase" as const, marginBottom: "24px" }}>Kamera Ayarları</div>
                 <InfoRow label="Diyafram" value={recipe.camera_settings.estimated_aperture} />
                 <InfoRow label="Enstantane" value={recipe.camera_settings.estimated_shutter_speed} />
                 <InfoRow label="ISO" value={recipe.camera_settings.estimated_iso} />
@@ -424,11 +340,11 @@ export default function Home() {
                 <InfoRow label="Beyaz Denge" value={recipe.camera_settings.white_balance} />
                 <InfoRow label="Ölçüm" value={recipe.camera_settings.metering_mode} />
               </div>
-              <div style={s.gridCell}>
-                <div style={s.cellLabel}>Renk Analizi</div>
-                <div style={s.swatchRow}>
+              <div>
+                <div style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#BBBBBB", fontFamily: "monospace", textTransform: "uppercase" as const, marginBottom: "24px" }}>Renk Analizi</div>
+                <div style={{ display: "flex", gap: "6px", marginBottom: "20px" }}>
                   {recipe.color_analysis.dominant_colors.map((c, i) => (
-                    <div key={i} style={s.swatch(c)} title={c} />
+                    <div key={i} title={c} style={{ width: "40px", height: "40px", background: c }} />
                   ))}
                 </div>
                 <InfoRow label="Gölgeler" value={recipe.color_analysis.shadows} />
@@ -438,43 +354,44 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Film Simülasyonu */}
-            <div style={s.filmBlock}>
-              <div style={s.cellLabel}>Film Simülasyonu</div>
-              <div style={s.filmName}>{recipe.film_simulation.analog_film_equivalent}</div>
-              <p style={s.filmReason}>{recipe.film_simulation.reason}</p>
+            <div style={{ marginBottom: "48px", paddingBottom: "48px", borderBottom: "1px solid #E8E8E8" }}>
+              <div style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#BBBBBB", fontFamily: "monospace", marginBottom: "16px" }}>Film Simülasyonu</div>
+              <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "32px", alignItems: "start" }}>
+                <div style={{ fontSize: "26px", fontWeight: "700", fontFamily: "Georgia, serif", letterSpacing: "-0.02em" }}>
+                  {recipe.film_simulation.analog_film_equivalent}
+                </div>
+                <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.7", paddingTop: "6px" }}>{recipe.film_simulation.reason}</p>
+              </div>
             </div>
 
-            {/* Tabs */}
-            <div style={{ marginBottom: "1px" }}>
-              <div style={{ ...s.cellLabel, padding: "28px 0 12px" }}>Düzenleme Reçeteleri</div>
+            <div style={{ marginBottom: "48px", paddingBottom: "48px", borderBottom: "1px solid #E8E8E8" }}>
+              <div style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#BBBBBB", fontFamily: "monospace", marginBottom: "24px" }}>Düzenleme Reçeteleri</div>
               <RecipeTabs recipe={recipe} />
             </div>
 
-            {/* İpuçları */}
-            <div style={{ ...s.cellLabel, padding: "28px 0 12px" }}>Çekim İpuçları</div>
-            <div style={s.tipsGrid}>
-              {recipe.shooting_tips.map((tip, i) => (
-                <div key={i} style={s.tipCell}>
-                  <span style={s.tipNum}>0{i + 1}</span>
-                  <p style={s.tipText}>{tip}</p>
-                </div>
-              ))}
+            <div style={{ marginBottom: "48px", paddingBottom: "48px", borderBottom: "1px solid #E8E8E8" }}>
+              <div style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#BBBBBB", fontFamily: "monospace", marginBottom: "24px" }}>Çekim İpuçları</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "32px" }}>
+                {recipe.shooting_tips.map((tip, i) => (
+                  <div key={i}>
+                    <div style={{ fontSize: "10px", fontFamily: "monospace", color: "#BBBBBB", marginBottom: "8px" }}>0{i + 1}</div>
+                    <p style={{ fontSize: "13px", color: "#555", lineHeight: "1.7" }}>{tip}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Özet */}
-            <div style={s.summary}>
-              <div style={s.summaryLabel}>Özet</div>
-              <p style={s.summaryText}>{recipe.lightroom_preset_summary}</p>
+            <div style={{ marginBottom: "48px" }}>
+              <div style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#BBBBBB", fontFamily: "monospace", marginBottom: "16px" }}>Özet</div>
+              <p style={{ fontSize: "15px", color: "#555", lineHeight: "1.9", maxWidth: "600px" }}>{recipe.lightroom_preset_summary}</p>
             </div>
 
-            {/* CTA */}
-            <div style={s.cta}>
+            <div style={{ textAlign: "center" as const, paddingBottom: "60px" }}>
               <button
                 onClick={() => { setRecipe(null); setImage(null); setError(null); }}
-                style={s.ctaBtn}
-                onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = "#C8A96E"; (e.target as HTMLButtonElement).style.color = "#FAF7F2"; }}
-                onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = "transparent"; (e.target as HTMLButtonElement).style.color = "#C8A96E"; }}
+                style={{ background: "#1a1a1a", border: "none", color: "#fff", padding: "16px 40px", fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.25em", textTransform: "uppercase" as const, cursor: "pointer" }}
+                onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = "#333"; }}
+                onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = "#1a1a1a"; }}
               >
                 Yeni Fotoğraf Analiz Et
               </button>
@@ -483,7 +400,20 @@ export default function Home() {
         )}
       </main>
 
-      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes marqueeLeft {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marqueeRight {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        @keyframes slide {
+          0% { left: -40%; }
+          100% { left: 100%; }
+        }
+      `}</style>
     </div>
   );
 }
